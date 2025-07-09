@@ -105,12 +105,12 @@ const Index = () => {
 
   const quizQuestions = [
     {
-      question: "น้องนางชอบเค้กรสอะไรมากที่สุด?",
+      question: "เธอชอบเค้กรสอะไรมากที่สุด?",
       options: ["เค้กส้ม", "เค้กช็อกโกแลต", "เค้กมะพร้าว", "เค้กชาเขียว"],
       answer: "เค้กช็อกโกแลต"
     },
     {
-      question: "ตัวการ์ตูนตัวโปรดของน้องนาง (ที่พี่จำได้)?",
+      question: "ตัวการ์ตูนตัวโปรดของเธอ?",
       options: ["โดเรมอน", "ชินจัง", "ปิกาจู", "คิตตี้"],
       answer: "ชินจัง"
     },
@@ -756,7 +756,7 @@ const Index = () => {
       <section className="py-16 px-4 bg-gradient-to-b from-yellow-50 to-orange-50">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-orange-800 mb-8 animate-fade-in">
-            🎮 เกมทายใจน้องนาง 💖
+            🎮 เกมทายใจจ 💖
           </h2>
           {!showQuizResults ? (
             <Card className="bg-white/80 backdrop-blur-sm shadow-xl border-2 border-orange-200">
