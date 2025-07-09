@@ -33,10 +33,10 @@ const MusicPlayer = ({ isVisible = false }: MusicPlayerProps) => {
     { text: "ที่สุดก็เป็นได้เพียงความรักที่จบไป", start: { min: 0, sec: 59 }, end: { min: 1, sec: 4.5 } },
     { text: "ที่สุดก็ไม่ได้เป็นอย่างฝัน", start: { min: 1, sec: 5.5 }, end: { min: 1, sec: 12 } },
     { text: "เหน็ดเหนื่อยเฝ้าคอยประคองความรักเรื่อยมา", start: { min: 1, sec: 12.5 }, end: { min: 1, sec: 18.5 } },
-    { text: "แต่สุดท้ายก็ถึงเวลาต้องเลิกกัน", start: { min: 1, sec: 19.5 }, end: { min: 1, sec: 25.5  } },
+    { text: "แต่สุดท้ายก็ถึงเวลาต้องเลิกกัน", start: { min: 1, sec: 19.5 }, end: { min: 1, sec: 25.5 } },
     { text: "ฉันเข้าใจเมื่อได้รับรู้ว่าเธอเลือกแล้ว", start: { min: 1, sec: 26.5 }, end: { min: 1, sec: 33.5 } },
     { text: "เพียงรอเวลาปล่อยมือไปเท่านั้น", start: { min: 1, sec: 34.5 }, end: { min: 1, sec: 39.5 } },
-      { text: "", start: { min: 1, sec: 39.6 }, end: { min: 1, sec: 40.4 } }, // บรรทัดว่างสำหรับเว้นวรรค/หยุดชั่วคราว
+    { text: "", start: { min: 1, sec: 39.6 }, end: { min: 1, sec: 40.4 } }, // บรรทัดว่างสำหรับเว้นวรรค/หยุดชั่วคราว
     { text: "ก็คงมีเพียงคำอวยพร อยากให้เธอนั้นโชคดี", start: { min: 1, sec: 40.5 }, end: { min: 1, sec: 46.5 } },
     { text: "ให้เธอได้พบรักแท้ พบคนที่ดีได้มีชีวิตที่ตรงใจ", start: { min: 1, sec: 47.5 }, end: { min: 1, sec: 55.5 } },
     { text: "มีเพียงความยินดี ที่จะได้เริ่มต้นใหม่", start: { min: 1, sec: 55.5 }, end: { min: 2, sec: 2 } },
@@ -133,16 +133,13 @@ const MusicPlayer = ({ isVisible = false }: MusicPlayerProps) => {
             'modestbranding': 1, // Hide YouTube logo
             'enablejsapi': 1, // Enable JavaScript API
             'origin': window.location.origin, // Crucial for embedding restrictions
-            'start': 58, // Start video at 0:59
+            'start': 59, // Start video at 0:59
           },
           events: {
             // Event listener for when the player is ready
             'onReady': (event: any) => {
                 // Attempt to autoplay if component is visible and hasn't auto-played yet
-                if (isVisible && !hasAutoPlayed) {
-                    event.target.playVideo();
-                    setHasAutoPlayed(true);
-                }
+                // Removed explicit autoplay here to rely on user interaction or YouTube's default
             },
             // Event listener for player state changes
             'onStateChange': onPlayerStateChange,
@@ -162,14 +159,11 @@ const MusicPlayer = ({ isVisible = false }: MusicPlayerProps) => {
                 'modestbranding': 1,
                 'enablejsapi': 1,
                 'origin': window.location.origin,
-                'start': 58, // Start video at 0:59
+                'start': 59, // Start video at 0:59
             },
             events: {
                 'onReady': (event: any) => {
-                    if (isVisible && !hasAutoPlayed) {
-                        event.target.playVideo();
-                        setHasAutoPlayed(true);
-                    }
+                    // Removed explicit autoplay here to rely on user interaction or YouTube's default
                 },
                 'onStateChange': onPlayerStateChange,
             },
@@ -189,31 +183,14 @@ const MusicPlayer = ({ isVisible = false }: MusicPlayerProps) => {
     };
   }, []); // Empty dependency array ensures this runs once on mount
 
-  // Effect for autoplay when component visibility changes
-  useEffect(() => {
-    // Only attempt autoplay if component is visible, hasn't auto-played, and player is ready
-    if (isVisible && !hasAutoPlayed && playerRef.current && typeof playerRef.current.playVideo === 'function') {
-        const playerState = playerRef.current.getPlayerState();
-        // Prevent playing if already playing or buffering
-        if (playerState !== window.YT.PlayerState.PLAYING && playerState !== window.YT.PlayerState.BUFFERING) {
-            playerRef.current.playVideo();
-            setHasAutoPlayed(true);
-        }
-    }
-  }, [isVisible, hasAutoPlayed]); // Re-run when isVisible or hasAutoPlayed changes
+  // Removed the useEffect for autoplay based on isVisible and hasAutoPlayed
+  // as the user wants to rely solely on YouTube's controls.
 
 
-  // Toggles play/pause state of the video
+  // Toggles play/pause state of the video (this function is no longer used by a custom button)
   const togglePlay = () => {
-    const player = playerRef.current;
-    if (player && typeof player.getPlayerState === 'function') {
-      const playerState = player.getPlayerState();
-      if (playerState === window.YT.PlayerState.PLAYING || playerState === window.YT.PlayerState.BUFFERING) {
-        player.pauseVideo();
-      } else {
-        player.playVideo();
-      }
-    }
+    // This function is now effectively unused as the custom play/pause button is removed.
+    // Playback will be controlled by the YouTube player's built-in controls.
   };
 
   // Toggles the liked state of the song
@@ -275,8 +252,8 @@ const MusicPlayer = ({ isVisible = false }: MusicPlayerProps) => {
                 <div id="youtube-player-placeholder" ref={playerContainerRef} className="w-full h-full" />
               </div>
               
-              {/* Control Overlay for Play/Pause Button */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+              {/* Removed custom play/pause button and its container */}
+              {/* <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
                 <div className="flex items-center justify-center space-x-4">
                   <Button
                     onClick={togglePlay}
@@ -290,7 +267,7 @@ const MusicPlayer = ({ isVisible = false }: MusicPlayerProps) => {
                     )}
                   </Button>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {/* Lyrics Section */}
@@ -298,7 +275,11 @@ const MusicPlayer = ({ isVisible = false }: MusicPlayerProps) => {
               <div className="mb-6">
                 <h4 className="text-xl font-bold mb-2 text-pink-300">🎵 เนื้อเพลง</h4>
                 <p className="text-white/70 text-sm">
-                  เพลงนี้สื่อถึงความรู้สึกที่พี่มีให้น้องนาง 💖
+                  เพลงนี้สื่อถึงความรู้สึกที่เรามีให้เธอ 💖
+                  
+                </p>
+                <p className="text-white/70 text-sm">
+                  เลื่อนเว็บไปด้วยเปิดฟังไปด้วยนะ
                 </p>
               </div>
               
